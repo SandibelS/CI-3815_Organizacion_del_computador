@@ -1,0 +1,16 @@
+search_L_or_T:
+	# Recibe: $a0 -> Direccion en donde se comienza a a buscar el caracter L o T
+	#	  $a1 -> La direccion final en donde buscar
+	# $a0 -> La direccion donde se encotro el caracter buscado
+	# $a2 -> La cantidad de "-" que pasamos, indica el dia en que encontramos el caracter
+	
+	li $a2, 0
+	
+	slt_loop: bgt $a0, $a1, end_slt
+		lb $s0, ($a0)
+		beq $s0, 76, end_slt #Si el caracter es L salimos del loop
+		beq $s0, 84, end_slt #Si el caracter es T salimos del loop
+		add $a0, $a0, 1
+		
+	b slt_loop
+	end_slt: jr $ra

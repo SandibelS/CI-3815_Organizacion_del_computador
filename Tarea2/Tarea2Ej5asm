@@ -1,0 +1,47 @@
+# Tarea 2. Ejericio 5
+#
+# Imprimir por pantalla los primeros k números primos.
+#
+# Sandibel Soares
+# 1710614
+
+.data 
+ 	K: .word 10
+ 	espacio: .asciiz " "
+
+.text
+main:
+	lw $t0, K		# La cantidad de numeros primos que queremos
+	li $s0, 1       	# Donde se guardara el numero a revisar
+
+loopE: beqz $t0, end		# Cuando $t0 sea 0 habremos imprimidos los k primos 
+
+add $s0, $s0, 1
+li  $s1, 2			# Donde guardamos el siguiente numero a revisar como divisor
+div $s2, $s0, 2			# No tiene sentido verificar divisores de n luego de pasar a n//2
+  
+	loopI: bgt $s1, $s2, print	# Si ya revisamos n//2 numeros, significa que n es primo
+	div  $s0, $s1			# Si la condicion de arriba no se cumplio, debemos revisar el siguiente divisor
+	mfhi $s3
+
+	if: beq $s3, 0, loopE 		# Si el numero se logra dividir por un numero que no es 1, ni el mismo, no nos 
+					# interesa y por tanto saltamos al siguiente numero a revisar
+					
+	add $s1, $s1, 1 		# Si n no era divisible por el numero, entonces avanzamos al siguiente numero para dividir 
+	bi: b loopI
+
+print:
+	move $a0, $s0
+	li  $v0, 1
+	syscall 
+	
+	la $a0, espacio
+	li $v0, 4
+	syscall
+	
+	sub $t0, $t0, 1
+	b loopE
+
+end:
+ 	li $v0, 10
+ 	syscall 

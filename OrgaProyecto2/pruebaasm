@@ -1,0 +1,9 @@
+.data 
+	a: .byte 97
+	.byte 0
+	.byte 0
+	b: .byte 98
+
+.text
+	la $t0, a
+	lb $t1, ($t0)
